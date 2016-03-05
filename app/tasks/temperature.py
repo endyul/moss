@@ -1,39 +1,47 @@
 from app.models import Moss, Notification
 from app import app
+import time
+import threading
 
+class Singleton(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
 
-class Temperature:
+class Temperature(threading.Thread):
+    __metaclass__ = Singleton
+
     def __init__(self):
-        self.counter = 0
-        self.should_stop = False
-
+        super(Temperature, self).__init__()
         self.fire_value = None
         self.firing = False
         self.should_alarm = False
 
         self.current_value = 0
 
-        self.read_value()
+        #self.read_value()
 
     def get_temp(self):
-        return 22.1
+        import random
+        random_value = random.random() * 10 + 20
+        return random_value
 
     def read_value(self):
-        val = get_temp()
+        val = self.get_temp()
         if val:
             self.current_value = val
-            self.add_history(time.time(), self.current_value)
+            ts = time.time()
+            self.add_history(ts, self.current_value)
+            app.logger.info('%s: %s C' % (str(ts),str(val)))
             self.check_fire()
 
     def add_history(self, timestamp, value):
-        if self.counter  == 60:
-            self.counter = 0
-            Moss.add(value, timestamp)
-        else:
-            self.counter += 1
+        Moss.add_record(timestamp, value)
 
     def set_target(self, target_temp):
-        app.logger.warning('setting target to ' + str(target_temp))
+        app.logger.info('setting target to ' + str(target_temp))
         self.fire_value = target_temp
         self.firing = False
 
@@ -43,15 +51,14 @@ class Temperature:
 
     def fire_reached(self):
         msg = ''
-        app.logger.warning(msg)
-        #TODO notification
+        app.logger.info(msg)
         if self.should_alarm and not self.firing:
             Notification.send_notification(msg)
         self.firing = True
 
     def fire_gone(self):
         msg = ''
-        app.logger.warning(msg)
+        app.logger.info(msg)
         if self.should_alarm and self.firing:
             self.firing = False
 
@@ -63,18 +70,8 @@ class Temperature:
             if self.current_value <= self.fire_value:
                 self.fire_gone()
 
-    def loop(self):
-        while self.should_stop is False:
+    def run(self):
+        app.logger.info('thread starting')
+        while True:
             self.read_value()
-            time.sleep(5)
-        app.logger.debug('Loop exited')
-
-    def start(self):
-        self.should_stop = False
-        app.logger.debug('Starting thread')
-        t = Thread(target=self.loop)
-        t.start()
-
-    def stop(self):
-        app.logger.debug('Stopping thread')
-        self.should_stop = True
+            time.sleep(1)

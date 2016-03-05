@@ -1,9 +1,21 @@
 from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
-
 app = Flask(__name__, instance_relative_config = True)
 app.config.from_envvar('APP_CONFIG_FILE')
 
-db = SQLALchemy(app)
+from flask.ext.sqlalchemy import SQLAlchemy
+db = SQLAlchemy(app)
 
+from flask_mail import Mail
 mail = Mail(app)
+
+from flask.ext.bootstrap import Bootstrap
+Bootstrap(app)
+
+from app.tasks import Temperature
+moss = Temperature()
+moss.setDaemon(True)
+moss.start()
+
+from app.views import moss_page
+app.register_blueprint(moss_page)
+
