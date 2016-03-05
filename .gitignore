@@ -96,3 +96,6 @@ Temporary Items
 .python-version
 *.swp
 *.db
+
+config/development.py
+config/production.py
