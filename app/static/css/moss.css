@@ -1,0 +1,7 @@
+.list-group-item-deletable>.glyphicon-minus {
+  float: right;
+  padding: 3px 7px;
+  color: #fff;
+  background-color: #b00;
+  border-radius: 10px;
+}

@@ -1,0 +1,41 @@
+{% extends "base_layout.html" %}
+{% set active_page = "settings" %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="../static/css/moss.css">
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-3 col-md-offset-2">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">警报接收者邮箱</h3>
+      </div>
+    <ul class="list-group" id='receivers'>
+      {% for user in users %}
+      <li class="list-group-item list-group-item-deletable" id='{{ user.id|e }}'>
+        {{ user.email|e }}
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="添加新接收者" id="new-receiver-input">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button" id="add-receiver">
+          <span class="glyphicon glyphicon-plus"></span>
+        </button>
+      </span>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="../static/js/settings.js"></script>
+{% endblock %}
+

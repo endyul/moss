@@ -37,7 +37,7 @@ class Notification(db.Model):
     email = db.Column(db.String(120), unique=True)
 
     @classmethod
-    def get_all_recievers(self):
+    def get_all_recievers(cls):
         users = cls.query.all()
         return users
 
@@ -46,6 +46,7 @@ class Notification(db.Model):
         user = cls(email=user_email)
         db.session.add(user)
         db.session.commit()
+        return user
 
     @classmethod
     def unsubscribe(cls, uid):

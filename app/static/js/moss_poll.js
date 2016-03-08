@@ -31,7 +31,7 @@ function loadGraph() {
 
   var options = {
     chart: {
-      renderTo: 'container',
+      renderTo: 'container-realtime',
       type: 'spline',
       events: {
         load: function() {
@@ -66,8 +66,12 @@ function loadGraph() {
       title: {
         text: 'Temperature (°C)'
       },
+      max: 40
     },
-    series: [{}],
+    series: [{name:'data center'}],
+    tooltip:{
+      valueSuffix: '°C'
+    }
   };
 
   moss_chart = new Highcharts.Chart(options);
@@ -80,3 +84,28 @@ $(document).ready(function() {
   //fetchData();
 });
 
+$('#realtime-tab').click(function (e) {
+  console.log('toggle realtime');
+  e.preventDefault();
+  $("#realtime-view").tab('show');
+});
+
+$("#day-tab").click(function (e) {
+  e.preventDefault();
+  $("#day-view").tab('show');
+});
+
+$('#week-tab').click(function (e) {
+  e.preventDefault();
+  $("#week-view").tab('show');
+});
+
+$('#month-tab').click(function (e) {
+  e.preventDefault();
+  $("month-view").tab('show');
+});
+
+$('#year-tab').click(function (e) {
+  e.preventDefault();
+  $('#year-view').tab('show');
+});
