@@ -11,11 +11,6 @@ mail = Mail(app)
 from flask.ext.bootstrap import Bootstrap
 Bootstrap(app)
 
-from app.tasks import Temperature
-moss = Temperature()
-moss.setDaemon(True)
-moss.start()
-
 from app.views import moss_page
 app.register_blueprint(moss_page)
 

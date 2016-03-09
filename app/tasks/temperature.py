@@ -1,5 +1,5 @@
 # coding: utf-8
-from app.models import Moss, Notification, Settings
+from app.models import Moss, Notification
 from app import app
 import time
 import threading
@@ -16,11 +16,13 @@ class Singleton(type):
 class Temperature(threading.Thread):
     __metaclass__ = Singleton
 
-    def __init__(self):
+    def __init__(self, fire_value = None, should_alarm = False):
         super(Temperature, self).__init__()
-        self.fire_value = Settings.get_fire_value()
+        #self.fire_value = Settings.get_fire_value()
+        self.fire_value = fire_value
         self.firing = False
-        self.should_alarm = Settings.get_alert_switch_value()
+        #self.should_alarm = Settings.get_alert_switch_value()
+        self.should_alarm = should_alarm
 
         self.current_value = 0
         self.device = DHT11()
