@@ -23,6 +23,7 @@ def load_settings():
     if dev_port:
         settings['dev_port'] = dev_port
 
+    app.logger.info(settings)
     return settings
 
 if __name__ == '__main__':
