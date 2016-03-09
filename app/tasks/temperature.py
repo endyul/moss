@@ -16,16 +16,17 @@ class Singleton(type):
 class Temperature(threading.Thread):
     __metaclass__ = Singleton
 
-    def __init__(self, fire_value = None, should_alarm = False):
+    def __init__(self, dev_port, fire_value = None, should_alarm = False):
         super(Temperature, self).__init__()
         #self.fire_value = Settings.get_fire_value()
         self.fire_value = fire_value
         self.firing = False
         #self.should_alarm = Settings.get_alert_switch_value()
         self.should_alarm = should_alarm
+        self.dev_port = dev_port
 
         self.current_value = 0
-        self.device = DHT11()
+        self.device = DHT11(port=self.dev_port)
 
         #self.read_value()
 
