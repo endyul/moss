@@ -16,7 +16,7 @@ class Singleton(type):
 class Temperature(threading.Thread):
     __metaclass__ = Singleton
 
-    def __init__(self, dev_port, fire_value = None, should_alarm = False):
+    def __init__(self, dev_port='/dev/cu.usbserial-AH01A8MP', fire_value = None, should_alarm = False):
         super(Temperature, self).__init__()
         #self.fire_value = Settings.get_fire_value()
         self.fire_value = fire_value
