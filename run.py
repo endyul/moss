@@ -20,7 +20,7 @@ def load_settings():
     settings['should_alarm'] = should_alarm
 
     dev_port = app.config.get('DEV_PORT')
-    if dev:
+    if dev_port:
         settings['dev_port'] = dev_port
 
     return settings
