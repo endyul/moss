@@ -26,8 +26,8 @@ def load_settings():
     return settings
 
 if __name__ == '__main__':
-    app.run(use_reloader=False)
     moss = Temperature()
     moss.setDaemon(True)
     settings = load_settings()
     moss.start(**settings)
+    app.run(host='0.0.0.0', port=9527, use_reloader=False)
