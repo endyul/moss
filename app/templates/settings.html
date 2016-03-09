@@ -10,6 +10,34 @@
 {% block content %}
 <div class="row">
   <div class="col-md-3 col-md-offset-2">
+    <div class="row">
+      <div class="col-md-9">
+        <h5>启用邮件警报</h5>
+      </div>
+      <div class="col-md-3">
+        <div class="onoffswitch">
+          <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="alert-switch" {%if alert%}checked{%endif%}>
+          <label class="onoffswitch-label" for="alert-switch"></label>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">警报温度</h3>
+      </div>
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="未设置警报温度" id="fire-value-input" value="{% if fire_value %}{{fire_value}}{% endif %}">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" id="set-fire-value">
+            设置
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3 col-md-offset-2">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">警报接收者邮箱</h3>
