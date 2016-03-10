@@ -96,11 +96,13 @@ class Settings(db.Model):
 
     EVENT_ON_CHANGE = 1
 
-    listeners = {EVENT_ON_CHANGE: []}
+    listeners = {}
 
     @classmethod
     def on_change(cls, func):
-        cls.listeners[EVENT_ON_CHANGE].append(func)
+        if cls.EVENT_ON_CHANGE not in cls.listeners:
+            cls.listeners[cls.EVENT_ON_CHANGE] = []
+        cls.listeners[cls.EVENT_ON_CHANGE].append(func)
 
     @classmethod
     def notify(cls, event):
@@ -145,7 +147,7 @@ class Settings(db.Model):
         else:
             setting.setting_value = v
             db.session.commit()
-        cls.notify(EVENT_ON_CHANGE)
+        cls.notify(cls.EVENT_ON_CHANGE)
         return setting
 
 

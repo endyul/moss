@@ -13,6 +13,11 @@ class Singleton(type):
             cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
         return cls._instances[cls]
 
+class debug_device(object):
+    def read(self):
+        import random
+        return random.random() * 20 + 5
+
 class Temperature(threading.Thread):
     __metaclass__ = Singleton
 
@@ -26,9 +31,10 @@ class Temperature(threading.Thread):
         self.dev_port = dev_port
 
         self.current_value = 0
-        self.device = DHT11(port=self.dev_port)
-
-        #self.read_value()
+        if app.config.get('USE_DEBUG_DEVICE'):
+            self.device = debug_device()
+        else:
+            self.device = DHT11(port=self.dev_port)
 
     def set_settings(self, **kwargs):
         fire_value = kwargs.get('fire_value')
