@@ -96,7 +96,7 @@ class Settings(db.Model):
 
     EVENT_ON_CHANGE = 1
 
-    cls.listeners = {EVENT_ON_CHANGE: []}
+    listeners = {EVENT_ON_CHANGE: []}
 
     @classmethod
     def on_change(cls, func):
