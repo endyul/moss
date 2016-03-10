@@ -83,14 +83,14 @@ class Temperature(threading.Thread):
         self.firing = False
 
     def fire_reached(self):
-        msg = '达到预警温度！当前机房温度%d°C\n查看实时温度 %s' % (self.fire_value, 'http://127.0.0.1:5000')
+        msg = '达到预警温度！当前机房温度%d°C\n查看实时温度 %s' % (self.fire_value, app.config.get('SERVER_URL'))
         app.logger.info(msg)
         if self.should_alarm and not self.firing:
             Notification.send_notification('机房温度警报', msg)
         self.firing = True
 
     def fire_gone(self):
-        msg = '温度警报解除，当前机房温度%d°C\n查看实时温度 %s' % (self.fire_value, 'http://127.0.0.1:5000')
+        msg = '温度警报解除，当前机房温度%d°C\n查看实时温度 %s' % (self.fire_value, app.config.get('SERVER_URL'))
         app.logger.info(msg)
         if self.should_alarm and self.firing:
             Notification.send_notification('机房温度警报解除', msg)
