@@ -30,12 +30,10 @@ def fire_value():
         fire_value = Settings.get_fire_value()
         return jsonify({'status':'ok', 'fire_value': fire_value})
     elif request.method == 'POST':
-        from app import moss
         fire_value = request.form.get('fire_value')
         if fire_value:
             fire_value = float(fire_value)
             Settings.set_fire_value(fire_value)
-            moss.set_target(fire_value)
         return jsonify({'status': 'ok', 'fire_value': fire_value})
 
 @moss_page.route('/settings/alert-switch', methods=['GET', 'POST'])
@@ -44,12 +42,10 @@ def alert_switch():
         alert_switch_value = Settings.get_alert_switch_value()
         return jsonify({'status':'ok', 'alert_switch_value': alert_switch_value})
     elif request.method == 'POST':
-        from app import moss
         alert_switch_value = request.form.get('alert_switch_value')
         alert_switch_value = (alert_switch_value == 'true')
         if not (alert_switch_value is None):
             Settings.set_alert_switch_value(alert_switch_value)
-            moss.set_alert_switch(alert_switch_value)
         return jsonify({'status': 'ok', 'alert_switch_value': alert_switch_value})
 
 

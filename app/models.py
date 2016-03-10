@@ -94,6 +94,19 @@ class Settings(db.Model):
     TYPE_FIRE_VALUE = 1
     TYPE_ALERT_SWITCH_VALUE = 2
 
+    EVENT_ON_CHANGE = 1
+
+    cls.listeners = {EVENT_ON_CHANGE: []}
+
+    @classmethod
+    def on_change(cls, func):
+        cls.listeners[EVENT_ON_CHANGE].append(func)
+
+    @classmethod
+    def notify(cls, event):
+        for func in cls.listeners[event]:
+            func()
+
     @classmethod
     def get_fire_value(cls):
         v = cls.get_setting_value(cls.TYPE_FIRE_VALUE)
@@ -132,6 +145,7 @@ class Settings(db.Model):
         else:
             setting.setting_value = v
             db.session.commit()
+        cls.notify(EVENT_ON_CHANGE)
         return setting
 
 

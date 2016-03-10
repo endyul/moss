@@ -30,6 +30,16 @@ class Temperature(threading.Thread):
 
         #self.read_value()
 
+    def set_settings(self, **kwargs):
+        fire_value = kwargs.get('fire_value')
+        if fire_value:
+            self.fire_value = fire_value
+
+        should_alarm = kwargs.get('should_alarm')
+        if should_alarm:
+            self.should_alarm = should_alarm
+
+
     def get_temp(self):
         '''
         import random
